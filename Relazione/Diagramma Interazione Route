@@ -1,0 +1,97 @@
+
+Route::get('/','App\Http\Controllers\WelcomeController@index');
+
+Crea e ti riporta alla View 'Welcome'
+
+/*----------------------------------------------------------------------------------------------------------------------*/
+
+Route::get("login", "App\Http\Controllers\LoginController@login")->name("login");
+Crea e ti riporta alla View 'Login'
+
+Route::post("login", "App\Http\Controllers\LoginController@checkLogin");
+Richiama la funzione del controller che verifica se i dati del login sono presenti nella tabella e in caso affermativo apre una sessione
+
+Route::get("logout", "App\Http\Controllers\LoginController@logout")->name("logout");
+Richiama la funzione del controller che chiude la sessione
+
+/*----------------------------------------------------------------------------------------------------------------------*/
+
+Route::get('register','App\Http\Controllers\RegisterController@register_form');
+Crea e ti riporta alla View 'Sigin'
+
+Route::post('register','App\Http\Controllers\RegisterController@do_register');
+Richiama la funzione del controller che Verifica che non ci siano errori con i dati trasmessi dal form e nel caso in cui non dovessero esserci: aggiunge l'utente alla tabella degli User
+
+Route::get("register/username/{username}", "App\Http\Controllers\RegisterController@checkUsername");
+Richiama la funzione del controller che verifica che l'username non sia già preso da qualche altro utente
+
+Route::get("register/email/{email}", "App\Http\Controllers\RegisterController@checkEmail");
+Richiama la funzione del controller che verifica che l'email non sia già presa da qualche altro utente
+
+/*----------------------------------------------------------------------------------------------------------------------*/
+
+Route::get("home", "App\Http\Controllers\HomeController@index");
+Crea e ti riporta alla View 'Home'
+
+Route::get("ads", "App\Http\Controllers\HomeController@annunci_home");
+Richiama la funzione del controller che cerca nella tabella degli annunci gli annunci non publicati dall'utente loggato
+
+Route::get("num_ads_home", "App\Http\Controllers\HomeController@num_ads");
+Richiama la funzione del controller che restituisce il numero di oggetti messi nel carrello (numero di righe nella tabella pivot con id corrispondente a quello dell'ultente loggaot)
+
+Route::get("home/id/{id}", "App\Http\Controllers\HomeController@aggiungi_carrello");
+Richiama la funzione del controller che aggiunge al carrello gli elementi (verificando che non li avessimo già aggiunti)
+
+Route::get("home/articolo/{articolo_cercato}", "App\Http\Controllers\HomeController@cerca_articoli");
+Richiama la funzione del controller che Permette di effettuare una ricerca tra gli articoli presenti nella tabella ads
+
+/*----------------------------------------------------------------------------------------------------------------------*/
+
+Route::get("crea", "App\Http\Controllers\CreaController@index");
+Crea e ti riporta alla View 'Crea Annuncio'
+
+Route::get("num_ads_crea", "App\Http\Controllers\CreaController@num_ads");
+Richiama la funzione del controller che restituisce il numero di oggetti messi nel carrello (numero di righe nella tabella pivot con id corrispondente a quello dell'ultente loggaot)
+
+Route::get("crea/articolo/{articolo}", "App\Http\Controllers\CreaController@searchImg");
+Richiama la funzione del controller che effettua l'autenticazione API key per il sito pixabay e restituisce le immagini del testo cercata 
+
+Route::get("crea/nome/{nome}/descrizione/{descrizione}/prezzo/{prezzo}/foto/{img}", "App\Http\Controllers\CreaController@crea_annuncio");
+Richiama la funzione del controller che Crea e pubblica l'oggetto da mettere in vendita
+
+/*----------------------------------------------------------------------------------------------------------------------*/
+
+Route::get("annunci", "App\Http\Controllers\AnnunciController@index");
+Crea e ti riporta alla View 'I Miei Annunci'
+
+Route::get("num_ads_annunci", "App\Http\Controllers\AnnunciController@num_ads");
+Richiama la funzione del controller che restituisce il numero di oggetti messi nel carrello (numero di righe nella tabella pivot con id corrispondente a quello dell'ultente loggaot)
+
+Route::get("miei_annunci", "App\Http\Controllers\AnnunciController@miei_annunci");
+Richiama la funzione del controller che restituisce gli annunci pubblicati dall'utente loggato
+
+Route::get("miei_annunci/id/{id}", "App\Http\Controllers\AnnunciController@delete_ad");
+Richiama la funzione del controller che Elimina gli annunci selezionati dalla tabella
+
+/*----------------------------------------------------------------------------------------------------------------------*/
+
+Route::get('spotify', "App\Http\Controllers\SpotifyController@spoti");
+Crea e ti riporta alla View 'Spotify'
+
+
+Route::get('spotify/searchSpotify/{query}', "App\Http\Controllers\SpotifyController@searchSpotify");
+Richiama la funzione del controller che effettua l'autenticazione AOT2.0 per i lsito spotify e restituisce gli album del testo cercato
+
+/*----------------------------------------------------------------------------------------------------------------------*/
+
+Route::get("carrello", "App\Http\Controllers\CarrelloController@index");
+Crea e ti riporta alla View 'Carrello'
+
+Route::get("mio_carrello", "App\Http\Controllers\CarrelloController@carrello");
+Richiama la funzione del controller che restituisce gli oggetti messi nel carrello (gli oggetti presenti nella tabella pivot con id dell'utente loggato corrispondente)
+
+Route::get("mio_carrello/id/{id}", "App\Http\Controllers\CarrelloController@remove");
+Richiama la funzione del controller che rimuove gli oggetti dalla tabella pivot e quindi dal carrello
+
+Route::get("acquista", "App\Http\Controllers\CarrelloController@acquista");
+Richiama la funzione del controller che rimuove tutti gli oggetti del carrello dalla tabella pivot e dalla tabella ads 
